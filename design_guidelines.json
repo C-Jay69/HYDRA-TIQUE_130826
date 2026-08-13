@@ -1,0 +1,103 @@
+{
+  "theme": "dark",
+  "archetype": "5 (Jewel & Luxury)",
+  "colors": {
+    "background": "#0A0A0B",
+    "surface": "#141416",
+    "border": "#2A2A2E",
+    "primary": "#C9A84C",
+    "primary_hover": "#E2C06A",
+    "text_primary": "#F5F5F0",
+    "text_secondary": "#8A8A8A",
+    "success": "#4CAF7A",
+    "error": "#E05555"
+  },
+  "typography": {
+    "headings": "Playfair Display",
+    "body": "DM Sans",
+    "technical": "JetBrains Mono",
+    "hierarchy_rules": {
+      "h1": "text-5xl md:text-6xl font-black tracking-tight leading-none font-serif",
+      "h2": "text-3xl md:text-4xl font-bold tracking-tight font-serif",
+      "h3": "text-xl md:text-2xl font-semibold font-serif",
+      "body": "text-base text-[#8A8A8A] leading-relaxed font-sans",
+      "labels_and_technical": "font-mono text-sm tracking-[0.2em] uppercase text-[#C9A84C]"
+    }
+  },
+  "spacing_and_layout": {
+    "container_padding": "p-6 md:p-8 lg:p-12",
+    "bento_grid": "Grid with gap-6 or gap-8, using subtle borders instead of heavy box-shadows. Use a 1px inner stroke on cards.",
+    "alignment": "Left-align paragraphs, inputs, and dense content. Center-align hero text only if using symmetrical layout.",
+    "hero_overlay": "bg-gradient-to-t from-[#0A0A0B] via-[#0A0A0B]/80 to-transparent for images"
+  },
+  "components": {
+    "buttons": {
+      "primary": "bg-[#C9A84C] text-[#0A0A0B] font-semibold rounded-none px-6 py-3 hover:bg-[#E2C06A] active:translate-y-1 active:scale-[0.98] transition-all duration-200",
+      "secondary": "bg-transparent border border-[#2A2A2E] text-[#F5F5F0] hover:border-[#C9A84C]/50 hover:text-[#C9A84C] transition-colors duration-300 rounded-none"
+    },
+    "cards": {
+      "base": "bg-[#141416] border border-[#2A2A2E] rounded-none",
+      "hover_effect": "hover:-translate-y-1 hover:border-[#C9A84C]/40 hover:shadow-[0_8px_32px_rgba(201,168,76,0.1)] transition-all duration-300"
+    },
+    "inputs": {
+      "base": "bg-transparent border-b border-[#2A2A2E] rounded-none px-0 py-2 focus:border-[#C9A84C] focus:ring-0 outline-none transition-colors font-sans text-[#F5F5F0] placeholder-[#8A8A8A]"
+    },
+    "header": {
+      "style": "sticky top-0 z-50 backdrop-blur-xl bg-[#0A0A0B]/70 border-b border-[#2A2A2E]"
+    },
+    "upload_zone": {
+      "style": "relative group border-2 border-dashed border-[#2A2A2E] hover:border-[#C9A84C] bg-[#141416] p-12 text-center transition-all duration-300 overflow-hidden rounded-none",
+      "animation": "On hover, show a subtle scanline effect moving top to bottom, using a linear gradient mask."
+    },
+    "authenticity_meter": {
+      "style": "A circular gauge or horizontal progress bar using JetBrains Mono for the percentage. Use #C9A84C for the active fill, resting on a #2A2A2E track."
+    }
+  },
+  "animations": {
+    "page_transitions": "Fade in with a slight upward translation (translate-y-4 to 0).",
+    "staggered_lists": "Dashboard items load with a staggered fade-in.",
+    "hover_states": "All interactive elements must change color explicitly on hover. Links gain a 1px #C9A84C underline."
+  },
+  "accessibility": {
+    "contrast": "Text over backgrounds meets APCA standards. Secondary text (#8A8A8A) over (#141416) is acceptable for non-critical info, but use #F5F5F0 for primary data.",
+    "focus_states": "focus:outline-none focus:ring-1 focus:ring-[#C9A84C]",
+    "testing": "All interactive and key informational elements MUST include a data-testid attribute."
+  },
+  "image_urls": [
+    {
+      "url": "https://images.pexels.com/photos/30123614/pexels-photo-30123614.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Close-up of an ancient golden coin with two faces on a dark background.",
+      "category": "hero_background"
+    },
+    {
+      "url": "https://images.pexels.com/photos/15320568/pexels-photo-15320568.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Framed painting in a dimly lit museum gallery.",
+      "category": "feature_authenticity"
+    },
+    {
+      "url": "https://images.unsplash.com/photo-1726825990567-73f6d3597cdb?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjA1ODh8MHwxfHNlYXJjaHwyfHxhbnRpcXVlJTIwZ29sZCUyMGpld2VscnklMjBkYXJrJTIwYmFja2dyb3VuZHxlbnwwfHx8fDE3NzQ4MzQyOTF8MA&ixlib=rb-4.1.0&q=85",
+      "description": "Gold necklace and jewelry on dark background",
+      "category": "feature_valuation"
+    },
+    {
+      "url": "https://images.pexels.com/photos/7462725/pexels-photo-7462725.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Clay sculpture in dimly lit museum setting",
+      "category": "marketplace_guidance"
+    },
+    {
+      "url": "https://images.pexels.com/photos/35870231/pexels-photo-35870231.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+      "description": "Elegant interior of a museum",
+      "category": "dashboard_banner"
+    }
+  ],
+  "instructions_to_main_agent": [
+    "Use standard React and Tailwind CSS.",
+    "For components, heavily customize Shadcn UI. Remove border-radius (rounded-none) from cards and buttons for an editorial, auction-house feel.",
+    "Implement Google OAuth using standard Firebase/Supabase/NextAuth flow as per tech stack.",
+    "The Authenticity Meter should visually resemble high-end technical instruments using JetBrains Mono.",
+    "Never use pure white #FFFFFF. Always use the specified Text Primary #F5F5F0.",
+    "Add 'data-testid' to all buttons, links, inputs, and major sections.",
+    "Do NOT use 'Inter' for headings. Only Playfair Display.",
+    "Icons should be @phosphor-icons/react for a premium duotone look."
+  ]
+}

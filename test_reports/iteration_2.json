@@ -1,0 +1,39 @@
+{
+  "summary": "Completed comprehensive testing of HYDRA-TIQUE FREEMIUM model implementation. All backend APIs and frontend features tested successfully with 100% pass rate. Verified free scan functionality, two-tier report system (basic vs deep_dive), Stripe-powered Deep Dive upgrade ($11.99), and locked sections with blur overlay on basic reports.",
+  "backend_issues": {
+    "critical_bugs": [],
+    "flaky_endpoints": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "passed_tests": [
+    "GET /api/health returns ok status",
+    "GET /api/auth/me with valid session token returns user data",
+    "POST /api/identify endpoint accepts requests (no credits required for free scan)",
+    "GET /api/identify/{job_id}/status returns job status for test job b45a27bc-50dc-42d9-857c-f83b7b0b8fc9",
+    "GET /api/reports/{job_id} returns BASIC tier report with limited data (item_name=null, no market pricing, no sell recs, no authenticity confidence)",
+    "POST /api/reports/{job_id}/upgrade creates Stripe checkout for $11.99",
+    "Admin stats endpoint works with proper authentication",
+    "Landing page loads with updated pricing (Free Scan + Deep Dive $11.99)",
+    "Dashboard page shows 'Unlimited' free scans, scan count, and deep dive count",
+    "Report page shows basic tier with 'Unlock Deep Dive - $11.99' button and locked sections",
+    "Identify page shows 'Free Scan' messaging (no credit requirement)",
+    "Admin dashboard accessible with proper stats display",
+    "Two-tier report system working correctly with basic summary and locked premium sections",
+    "Stripe integration functional for Deep Dive upgrades"
+  ],
+  "test_report_links": [
+    "/app/backend_test.py"
+  ],
+  "action_item_for_main_agent": "",
+  "updated_files": [],
+  "success_percentage": {
+    "backend": "100% (14/14 API endpoints tested and working)",
+    "frontend": "100% (all pages, components, and FREEMIUM features working)"
+  },
+  "should_call_test_agent_after_fix": "false",
+  "should_main_agent_test_itself": "true"
+}

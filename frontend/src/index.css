@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg: #0A0A0B;
+  --surface: #141416;
+  --border: #2A2A2E;
+  --primary: #C9A84C;
+  --primary-hover: #E2C06A;
+  --text-primary: #F5F5F0;
+  --text-secondary: #8A8A8A;
+  --success: #4CAF7A;
+  --error: #E05555;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: var(--text-primary);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Playfair Display', serif;
+}
+
+code, .font-mono {
+  font-family: 'JetBrains Mono', monospace;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary);
+}
+
+/* Upload zone scanline animation */
+@keyframes scanline {
+  0% { transform: translateY(-100%); }
+  100% { transform: translateY(100%); }
+}
+
+.upload-scanline::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(to bottom, transparent, rgba(201, 168, 76, 0.05), transparent);
+  transform: translateY(-100%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.upload-scanline:hover::after {
+  opacity: 1;
+  animation: scanline 2s linear infinite;
+}
+
+/* Authenticity gauge */
+@keyframes gaugeGrow {
+  from { stroke-dashoffset: 283; }
+}
+
+/* Page fade in */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.page-enter {
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+/* Staggered items */
+.stagger-item {
+  opacity: 0;
+  animation: fadeInUp 0.4s ease-out forwards;
+}
+
+/* Gold glow effect */
+.gold-glow {
+  box-shadow: 0 0 20px rgba(201, 168, 76, 0.15);
+}
+
+/* Selection */
+::selection {
+  background-color: rgba(201, 168, 76, 0.3);
+  color: var(--text-primary);
+}
