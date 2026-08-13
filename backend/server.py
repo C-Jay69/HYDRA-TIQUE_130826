@@ -36,40 +36,34 @@ STORAGE_URL = "https://integrations.emergentagent.com/objstore/api/v1/storage"
 APP_NAME = "hydratique"
 storage_key = None
 
+# Local filesystem storage config
+UPLOAD_DIR = Path(os.environ.get('UPLOAD_DIR', './uploads'))
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+
 # Configure logging
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# ==================== STORAGE ====================
-import requests as sync_requests
+# ==================== STORAGE (Local Filesystem) ====================
 
 def init_storage():
-    global storage_key
-    if storage_key:
-        return storage_key
-    resp = sync_requests.post(f"{STORAGE_URL}/init", json={"emergent_key": EMERGENT_LLM_KEY}, timeout=30)
-    resp.raise_for_status()
-    storage_key = resp.json()["storage_key"]
-    return storage_key
+    """No-op for local storage - directory already created above"""
+    return "local"
 
 def put_object(path: str, data: bytes, content_type: str) -> dict:
-    key = init_storage()
-    resp = sync_requests.put(
-        f"{STORAGE_URL}/objects/{path}",
-        headers={"X-Storage-Key": key, "Content-Type": content_type},
-        data=data, timeout=120
-    )
-    resp.raise_for_status()
-    return resp.json()
+    full_path = UPLOAD_DIR / path
+    full_path.parent.mkdir(parents=True, exist_ok=True)
+    full_path.write_bytes(data)
+    return {"path": path}
 
 def get_object(path: str):
-    key = init_storage()
-    resp = sync_requests.get(
-        f"{STORAGE_URL}/objects/{path}",
-        headers={"X-Storage-Key": key}, timeout=60
-    )
-    resp.raise_for_status()
-    return resp.content, resp.headers.get("Content-Type", "application/octet-stream")
+    full_path = UPLOAD_DIR / path
+    if not full_path.exists():
+        raise FileNotFoundError(f"File not found: {path}")
+    # Guess content type from extension
+    import mimetypes
+    content_type, _ = mimetypes.guess_type(str(full_path))
+    return full_path.read_bytes(), content_type or "application/octet-stream"
 
 # ==================== AUTH HELPER ====================
 async def get_current_user(request: Request):
