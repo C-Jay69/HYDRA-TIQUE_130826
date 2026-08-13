@@ -27,7 +27,9 @@ db = client[os.environ['DB_NAME']]
 EMERGENT_LLM_KEY = os.environ.get('EMERGENT_LLM_KEY')
 TAVILY_API_KEY = os.environ.get('TAVILY_API_KEY')
 STRIPE_API_KEY = os.environ.get('STRIPE_API_KEY')
-VISION_PROVIDER = os.environ.get('VISION_PROVIDER', 'anthropic')
+OPENROUTER_API_KEY = os.environ.get('OPENROUTER_API_KEY')
+VISION_PROVIDER = os.environ.get('VISION_PROVIDER', 'openrouter')
+VISION_MODEL = os.environ.get('VISION_MODEL', 'google/gemma-4-31b-it:free')
 
 # Object Storage
 STORAGE_URL = "https://integrations.emergentagent.com/objstore/api/v1/storage"
@@ -677,14 +679,11 @@ async def cs_agent_chat(req: CSChatRequest, request: Request):
 - Troubleshoot any issues with their account or identifications
 Always be warm, professional, and knowledgeable. If you don't know something, say so honestly."""
     chat = LlmChat(
-        api_key=EMERGENT_LLM_KEY,
+        api_key=OPENROUTER_API_KEY,
         session_id=f"cs_{user['user_id']}_{uuid.uuid4().hex[:8]}",
         system_message=system_msg
     )
-    if VISION_PROVIDER == "anthropic":
-        chat.with_model("anthropic", "claude-sonnet-4-5-20250929")
-    else:
-        chat.with_model("openai", "gpt-4o")
+    chat.with_model("openrouter", VISION_MODEL)
     # Build context from conversation history
     for msg in req.conversation_history[-10:]:
         if msg.get("role") == "user":
@@ -742,14 +741,11 @@ Be conservative in authenticity confidence. If you cannot identify something wit
         if job.get("description"):
             vision_prompt += f"\n\nAdditional context from user: {job['description']}"
         chat = LlmChat(
-            api_key=EMERGENT_LLM_KEY,
+            api_key=OPENROUTER_API_KEY,
             session_id=f"identify_{job_id}",
             system_message="You are an expert artifact appraiser. Always respond with valid JSON only."
         )
-        if VISION_PROVIDER == "anthropic":
-            chat.with_model("anthropic", "claude-sonnet-4-5-20250929")
-        else:
-            chat.with_model("openai", "gpt-4o")
+        chat.with_model("openrouter", VISION_MODEL)
         user_msg = UserMessage(text=vision_prompt, file_contents=image_contents)
         raw_response = await chat.send_message(user_msg)
         # Parse JSON from response
@@ -869,14 +865,11 @@ Recommend the 4-6 best platforms to sell this item. For each, provide:
 
 Respond ONLY with a JSON array."""
     chat = LlmChat(
-        api_key=EMERGENT_LLM_KEY,
+        api_key=OPENROUTER_API_KEY,
         session_id=f"sell_{uuid.uuid4().hex[:8]}",
         system_message="You are a marketplace expert. Respond only with valid JSON arrays."
     )
-    if VISION_PROVIDER == "anthropic":
-        chat.with_model("anthropic", "claude-sonnet-4-5-20250929")
-    else:
-        chat.with_model("openai", "gpt-4o")
+    chat.with_model("openrouter", VISION_MODEL)
     response = await chat.send_message(UserMessage(text=prompt))
     text = response.strip()
     if text.startswith("```"):
